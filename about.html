@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TheWineTwit - About</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/1ffbd0fc0b.js" crossorigin="anonymous"></script>
+    
+</head>
+<body>
+    <nav class="bg-red-700 sticky top-0">
+        <ul class="py-2 flex justify-center gap-6">
+            <li><a class="text-white hover:text-blue-200" href = "index.html">Home</a></li>
+            <li><a class="text-white hover:text-blue-200" href = "about.html">About</a></li>
+            <li><a class="text-white hover:text-blue-200" href = "supperclub.html">Supper Club</a></li>
+            <li><a class="text-white hover:text-blue-200" href = "wineclub.html">Wine Club</a></li>
+            <li><a class="text-white hover:text-blue-200" href = "bloodybens.html">Bloody Bens</a></li>
+
+        </ul>
+    </nav>
+
+    <header class="my-1 flex flex-col w-full sticky top-12">
+        <div class="flex justify-center"><img src="images/WIneTwitResized.jpg" width="300px" height="auto" alt="the Wine Twit"></div>
+        <div><h1 class="text-center text-red-700 text-3xl font-bold">ABOUT</h1></header>
+    </header>
+
+    <main>
+        
+        <section id="about" class="mt-4 mx-4 flex flex-col md:flex-row gap-8 ">
+            
+            <div id="mypic" class="md:w-52 flex-shrink-0">
+                <img  src="images/Jez.jpg" class="mb-2 w-full h-auto rounded-lg">
+            </div>
+            
+            <div id="story" class="flex-1 max-w-4xl px-2 py-2 bg-gray-100 rounded-lg">
+                <div >
+                    <h2 class="text-center text-red-700 text-2xl">The Story</h2>
+                    <p class=" py-2 text-base md:text-lg">Twenty years of drinking wine and talking about it.
+                                    I started writing about wine in the early 2000s, back when wine blogs were new and wine snobbery was still the norm. 
+                                    My view then was the same as it is now: great wine should be for everyone, and the best thing you can do for someone is 
+                                    point them at a bottle they'd never have found on their own.
+                                    I spent twenty years working in retail — not always in wine, 
+                                    but that became my love and after taking a degree in wine led me to opening The Wine Twit on Nightingale Lane in 2016. 
+                                    The name says everything about the approach: Whilst i think I can prove to you taht I know what works with wine at the hert of it , I'm a wine 
+                                    twit who loves wine and wants to share it.
+                                    We're not a hushed temple to the grape. We're a neighbourhood shop. 
+                                    You tell me what you like or what you're cooking tonight, or even who you're buying for, and I'll find you something brilliant. That's it.
+                    </p>
+                    <h2 class="text-center text-red-700 text-2xl">The Range</h2>
+                    <p class="py-2 text-lg md:text-lg">The shop stocks 120 to 180 bottles at any one time. 
+                        Every one of them is something I'd genuinely recommend to a friend. 
+                        We lean towards smaller producers, interesting regions, and 
+                        bottles that over-deliver on their price. 
+                        You'll find classic French alongside Georgian orange wine, Galician Albariño next to Jura Savagnin. 
+                        If it's boring, it doesn't get a shelf.</p>
+                    <h2 class="text-center text-red-700 text-2xl">On The Supper Club</h2>
+                    <p class="py-2 text-lg md:text-lg">The supper club started as an experiment and became the thing I'm most proud of. 
+                        Chef Lawrence designs a four-course menu around the wines — not the other way round — 
+                        and we squeeze as many people around the tables as the room will hold. 
+                        The regulars keep coming back. That tells me everything I need to know. </p>
+                    <h2 class="text-center text-red-700 text-2xl">On Bloody Bens</h2>
+                    <p class="py-2 text-lg md:text-lg">There's a gin distillery in the basement, run by our friends at Bloody Bens.
+                         If that's not a reason to visit, I don't know what is.
+                    </p>
+                </div>
+            </div>
+                
+            <div id="location" class="md:w-72 flex-shrink-0" >
+                <div id="shoppc">
+                    <img src="images/WineTwit3.jpg" class="mb-2 w-full h-auto rounded-lg">
+                </div>
+                    
+                <iframe class= "w-full mt-2 rounded-lg" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2486.4249141397704!
+                    2d-0.15734679999999998!3d51.450354499999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487605c7397061db%3A0x9282984eaacc0659!2s
+                    The%20Wine%20Twit!5e0!3m2!1sen!2suk!4v1777455742388!5m2!1sen!2suk" 
+                    
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+                
+                <section class="mt-2 justify-center">
+                    <div class="iframe-controls">
+                        <button class="py-2 px-2 bg-red-400 rounded-full text-white text-base md:px-2 text-lg hover:text-blue-100"
+                            onclick="reloadFrame()">
+                            Reload Content
+                        </button>
+                
+                        <button class="py-2 px-2 bg-red-400 rounded-full text-white text-base md:px-2 text-lg hover:text-blue-100" 
+                            onclick="toggleFullScreen()">
+                            Full Screen
+                        </button>
+                    </div>
+                    <script>
+                        function reloadFrame (){
+                        const frame = document.querySelector('iframe');
+                        frame.src = frame.src 
+                        }
+
+                        function toggleFullScreen() {
+                        const frame = document.querySelector('iframe');
+                        if (frame.requestFullscreen) {
+                        frame.requestFullscreen();
+                            }
+                        }
+                    </script>
+
+                </section>
+            
+            </div>
+        </section>
+        
+
+
+
+
+
+
+
+
+    </main>
+
+
+
+    <footer class="py-3 flex justify-center gap-7 bg-red-400 fixed w-full bottom-0">
+        <div class="text-center">&copy; The Wine Twit 2026</div>
+        <ul class="flex justify-center">
+            
+            <li><a href="https://www.instagram.com/thewinetwit/?hl=en"><i class="fa-brands fa-square-instagram"></i></a></li>
+            <li><a href="#"><i class="fa-brands fa-square-facebook"></i></a></li>
+            <li><a href="#"><i class="fa-brands fa-x-twitter"></i></a></li>
+        </ul>
+
+    </footer>
+    
+</body>
+</html>
