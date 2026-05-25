@@ -1,0 +1,160 @@
+<style>
+  #shopify-section-{{ section.id }} .custom-product-title {
+    font-size: {{ section.settings.title_font_size }}px !important;
+    line-height: 1.2;
+    margin-bottom: 5px;
+  }
+  .stock-warning { color: #b91c1c; font-weight: bold; font-size: 0.9em; display: block; margin-bottom: 10px; }
+</style>
+
+<div data-section-id="{{ section.id }}" data-section-type="featured-content">
+  {% assign selected_product = all_products[section.settings.featured_product] %}
+
+  {% comment %} Logic for dynamic product content {% endcomment %}
+  {% if selected_product != blank %}
+    {% assign displayTitle = selected_product.title %}
+    {% assign displayImage = selected_product.featured_media %}
+    {% assign displayPrice = selected_product.price | money %}
+    {% assign inventory = selected_product.variants.first.inventory_quantity %}
+  {% else %}
+    {% assign displayTitle = section.settings.manual_product_title %}
+    {% assign displayImage = section.settings.image %}
+    {% assign displayPrice = "" %}
+  {% endif %}
+
+  <div class="home-module home-imported-content has-media {% if section.settings.border %}has-border{% endif %} media-aligned-{{ section.settings.image-alignment }}">
+    
+    <div class="home-module-content">
+      
+      {% comment %} 1. THE CUSTOM SECTION HEADING (Stays as you type it) {% endcomment %}
+      {% if section.settings.section_heading != blank %}
+        {% render 'home-section-title', sectionTitle: section.settings.section_heading %}
+      {% endif %}
+
+      <div class="home-imported-content-wrapper">
+        <div class="rte">
+          
+          {% comment %} 2. THE WINE NAME (Controlled by font slider) {% endcomment %}
+          <h2 class="custom-product-title">{{ displayTitle }}</h2>
+
+          {% if displayPrice != blank %}
+            <p style="font-size: 1.2em; font-weight: bold; margin-bottom: 5px;">{{ displayPrice }}</p>
+            {% if inventory > 0 and inventory < 6 %}
+              <span class="stock-warning">⚠️ Only {{ inventory }} left!</span>
+            {% endif %}
+          {% endif %}
+
+          <div class="image-caption-text">
+            {% if selected_product != blank and section.settings.use_product_desc %}
+              {{ selected_product.description | truncatewords: 25 }}
+            {% else %}
+              {{ section.settings.caption }}
+            {% endif %}
+          </div>
+          
+          {% if selected_product != blank %}
+            <form method="post" action="/cart/add" style="margin-top: 20px;">
+              <input type="hidden" name="id" value="{{ selected_product.variants.first.id }}" />
+              <button type="submit" class="button" style="border-radius:25px; background-color:#b91c1c; color:white; padding: 12px 35px; border:none; cursor:pointer; font-weight:bold;">
+                {{ section.settings.button_label }}
+              </button>
+            </form>
+          {% endif %}
+        </div>
+
+        <div class="home-embedded-content rte">
+          {% if displayImage %}
+            {% render 'rimg', img: displayImage, size: '1000x1000', lazy: true %}
+          {% else %}
+            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Custom Pick",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_heading",
+      "label": "Section Heading",
+      "default": "Wine of the Month"
+    },
+    {
+      "type": "checkbox",
+      "id": "border",
+      "label": "Show border",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "The Wine"
+    },
+    {
+      "type": "product",
+      "id": "featured_product",
+      "label": "Select Wine"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "min": 16,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Wine Name Font Size",
+      "default": 28
+    },
+    {
+      "type": "checkbox",
+      "id": "use_product_desc",
+      "label": "Use wine's actual description",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Add to Cart"
+    },
+    {
+      "type": "header",
+      "content": "Overrides (If no wine picked)"
+    },
+    {
+      "type": "text",
+      "id": "manual_product_title",
+      "label": "Manual Wine Name",
+      "default": "Example Wine"
+    },
+    {
+      "type": "richtext",
+      "id": "caption",
+      "label": "Custom Description",
+      "default": "<p>Tell the story of this bottle.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Manual Image Override"
+    },
+    {
+      "type": "select",
+      "id": "image-alignment",
+      "label": "Image alignment",
+      "options": [
+        {"value": "left", "label": "Left"},
+        {"value": "right", "label": "Right"}
+      ],
+      "default": "right"
+    }
+  ],
+  "presets": [
+    { "name": "Custom Pick" }
+  ]
+}
+{% endschema %}

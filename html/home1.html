@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Wine Twit</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+</head>
+
+<body>
+ 
+    <!--Age Gate modal form-->   
+    <div id="age-gate-modal" class="hidden">
+        <div class="age-gate-box">
+                
+            <img src="images/WIneTwitResized.jpg" width="300px" height="auto" class="age-gate-logo" alt="the Wine Twit">
+            <h2>Verify Your Age</h2>
+            <p>Please confirm you are at least 18 years old to access our store.</p>
+            
+            <div class="age-gate-buttons">
+            <button id="btn-enter" class="btn-verify btn-enter">I am 18+</button>
+            <button id="btn-leave" class="btn-verify btn-leave">Exit</button>
+            </div>  
+        </div>
+</div>
+
+<!--Age verification script-->
+<script>
+  (function() {
+    const storageKey = 'age_verified_user';
+    const modal = document.getElementById('age-gate-modal');
+    const enterBtn = document.getElementById('btn-enter');
+    const leaveBtn = document.getElementById('btn-leave');
+
+    if (!localStorage.getItem(storageKey)) {
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    enterBtn.addEventListener('click', function() {
+      localStorage.setItem(storageKey, 'true');
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+    });
+
+    leaveBtn.addEventListener('click', function() {
+      window.location.href = 'https://google.com';
+    });
+  })();
+</script>
+    
+<!--Navigation-->
+    <nav class="bg-white sticky top-0">
+        <ul class="py-2 flex justify-center gap-6">
+            <li><a class="text-black hover:text-blue-200" href = "index.html">Home</a></li>
+            <li><a class="text-black hover:text-blue-200" href = "about.html">About</a></li>
+            <li><a class="text-black hover:text-blue-200" href = "supperclub.html">Supper Club</a></li>
+            <li><a class="text-black hover:text-blue-200" href = "wineclub.html">Wine Club</a></li>
+            <li><a class="text-black hover:text-blue-200" href = "bloodybens.html">Bloody Bens</a></li>
+
+        </ul>
+    </nav>
+
+    <header class="bg-white flex flex-col w-full sticky top-10 z-50">
+        <div class="flex justify-center"><img src="images/WIneTwitResized.jpg" width="300px" height="auto" alt="the Wine Twit"></div>
+        
+    </header>
+    
+    <main class="mx-auto max-w-6xl">
+        
+        <!--Intro section-->
+        <section id="hero" class="m-2 p-4 flex flex-col border-2 border-red-400 rounded-lg md:flex-row justify-center gap-8 ">
+            
+            <div>
+                <img  src="images/Jez.jpg" class="rounded-lg w-32 h-auto md:w-48">
+            </div>
+            
+            <div class="flex flex-1 flex-col px-2 py-2 rounded-lg">
+                    
+                <div class="">
+                        
+                        <h1 class="py-2 text-xl md:text-lg">Hi. I'm Jez. I've been finding brilliant wine for people on Nightingale Lane, Southwest London since 2016.</h1>
+                        <p>No lectures. No jargon. No attitude. Just wine I'd genuinely put in front of a friend.</p> 
+                        <p>Come in. Tell me what you're eating. I'll find you something you'll love.</p>
+                        
+                        
+                </div>
+                
+                <div id="gap" class ="flex-grow"></div> 
+                
+                <div class="flex gap-4 mt-4">
+                        
+                        <div>
+                            <a href = "https://thewinetwit.com/collections/all">
+                            <button class="py-2 px-10 rounded-full border border-red-400 text-red-400 text-base md:px-14 text-sm hover:text-red-200">  Buy Wine  </button>
+                            </a>
+                        </div>
+                        <div><a href = "wineclub.html">
+                            <button class="py-2 px-4 bg-red-700 rounded-full text-white text-sm md:text-sm hover:text-blue-100">Join the Wine Club</button>
+                            </a>
+                        </div>
+                        <div>
+                            <a href = "supperclub.html">
+                            <button class="py-2 px-4 bg-red-700 rounded-full text-white text-sm md:text-sm hover:text-blue-100">Book The Supper Club</button>
+                            </a>
+                        </div>
+                </div>
+
+            </div>
+                    
+        </section>
+
+
+        <!--Pick of the week-->
+        <section id="pick" class="my-4 p-4 w-full border border-solid border-red-800 rounded-lg mt-2 ">
+            
+            <div>
+                <h2 class="text-xl font-bold">This weeks pick</h2>
+            </div>
+                        
+            <div class="mt-3 flex flex-col gap-2 md:flex-row gap-8">
+            
+                <div>
+                   <img src="images/Lentsch_St_Laurent_Reserve.jpg" class= "border-solid border-black border-2 rounded-lg w-32 h-32 md:w-auto md:h-32 ">
+                </div>
+                
+                <div class="w-full bg-red-700 rounded-lg"> 
+                
+                    <p class="mx-2 text-white text-lg md:text-xl">What Jez is excited about right now</p>
+                    <p class ="mx-2 py-2w-full text-white text-sm  md:text-base">This is a great wine for people like you because the person writing this website is a wine phlistine. 
+                                Eat with plenty of red meat dont believe the hype it is good for you, 
+                                unless you are a vegetarian then a roasted aubegine with hot smoked paprika is a pefect match is a thing of wonder
+                    </p>
+                
+                    <p class="text-center text-white">£5.99</p>
+                </div>
+            
+            </div>         
+                
+        
+        </section>
+                
+        
+        <!--Collections-->
+        <section id="collections" class= "mx-2 w-full">
+                
+                <div><h2 class="text-xl font-bold">Our Collections</h2></div>
+                
+                <div  class= "grid grid-cols-1 md:grid-cols-3 mt-2 gap-4">
+                    
+                    <!--Red Wine -->
+                    <div class= "relative group">
+                        
+                        <a href = "https://thewinetwit.com/collections/red" class="block">
+                            <img src="images/red.jpg" class="w-full h-48 md:h-64 object-cover rounded-lg">
+                            
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <span class="py-2 px-4 bg-red-700 rounded-full text-white text-base md:text-lg hover:text-blue-100 transition-colors">
+                                Red
+                                </span>
+                            </div>
+                        </a>
+                        
+                    </div>
+
+                    <div class="relative group">
+                        
+                        <a href = "https://thewinetwit.com/collections/white" class="block">
+                            <img src="images/white.jpg" class="w-full h-48 md:h-64 object-cover rounded-lg">
+                        
+                            <div class="absolute inset-0 flex items-center justify-center">
+                            
+                                <span class="py-2 px-4 rounded-full text-white font-bold text-base md:text-lg hover:text-blue-100 transition-colors">
+                                White
+                                </span>
+                            
+                            </div>
+                        </a>
+                        
+                    </div>
+
+                    <div class="relative group">
+                        <img src="images/rose.jpeg" class="w-full h-48 md:h-64 object-cover rounded-lg">
+                        
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <a href = "https://thewinetwit.com/collections/rose" 
+                                class="inline-block py-2 px-4 bg-red-700 rounded-full text-white text-base md:text-lg hover:text-blue-100 transition-colors">
+                                Rose
+                            </a>
+                        </div>
+                    </div>
+
+                                
+        </section>
+
+                
+        <section id="fourstories" class ="mx-2 mt-4 w-full">
+        
+              
+                <div>
+        
+                    <h2 class="font-bold text-xl">Four Stories</h2> 
+                    <p>Oh, and there's a gin distillery in our basement.</p>
+                    
+                    
+                    <p class ="mt-2 w-full p-2 text-sm text-white bg-cyan-800 rounded-lg md:text-base md:p-4">Bloody Bens is a small-batch gin distilled literally underneath the shop, 
+                            by our friends Ben and [partner name]. We stock it, we love it, 
+                            and if you ask nicely we might let you taste it downstairs.
+                    </p>
+
+                    <div class="flex justify-center gap-4 mt-8">
+                        <a href = "https://thewinetwit.com/search?q=four+stories">
+                            <button class="py-2 px-4 bg-red-400 rounded-full text-white text-base md:text-lg hover:text-blue-100">Products</button>
+                            </a>
+                    </div>
+
+                
+                
+                </div>
+
+                    
+
+                
+
+                        
+            </section>
+
+            
+        
+
+        <section id="clubs" class="mt-2 mx-2 flex flex-col md:flex-row justify-center gap-8">
+            <div id="supperclub" class= "px-4 py-4 bg-gray-100 flex rounded-lg">
+                <div><img src="images/Supper_Club_21st_Sept.jpg" class="rounded-lg w-32 h-auto md:w-52"></div>
+                <div class="flex flex-col text-center px-2">
+                    <h2 class="text-red-700 text-3xl">Supper Club</h2>
+                    <p class="text-lg md:text-2xl">Dinner, wine, and the best night you'll have this month.</p>
+                    <p class ="text-sm max-w-md md:text-base md:py-4">Once (soon twice) a month, we push the tables together, light the candles, 
+                            and chef Lawrence cooks a four-course menu designed entirely around the wines. Small, intimate, always sold out.</p>
+                    <a href = "supperclub.html">
+                    <button class="py-2 px-4 bg-red-400 rounded-full text-white text-base md:text-lg hover:text-blue-100">Book The Supper Club</button>
+                    </a>
+                </div>
+                
+                
+            </div>
+
+            <div id="wineclub" class= "px-4 py-4 bg-gray-100 flex rounded-lg text-center">
+                <div><img src="images/WineTwit2.jpg" class="rounded-lg w-32 h-auto md:w-52"></div>
+                <div class="flex flex-col justify-center px-2">
+                    <h2 class="text-red-700 text-3xl">Wine Club</h2>
+                    <p class="text-lg md:text-2xl">Your local, through your letterbox.</p>
+                    <p class ="py-2 text-sm max-w-md md:text-base md:py-4">From £45/month. Three or six bottles, hand-selected by Jez, with a note on each one. 
+                        Delivered or collected in-shop. Cancel any time.</p>
+                    <a href = "wineclub.html">
+                    <button class="py-2 px-4 bg-red-400 rounded-full text-white text-base md:text-lg hover:text-blue-100">Find out more about the Wine Club</button>
+                    </a>
+                </div>
+                
+                
+            </div>
+
+            
+
+        </section>
+
+          
+
+    </main>
+
+    <footer class="py-3 flex justify-center gap-7 bg-white fixed w-full bottom-0">
+        <div class="text-center">&copy; <span><a href="https://thewinetwit.com/"></a>The Wine Twit 2026</span></div>
+        <ul class="flex justify-center">
+            
+            <li><a href="https://www.instagram.com/thewinetwit/?hl=en"><i class="fa-brands fa-square-instagram"></i></a></li>
+            <li><a href="#"></i></a></li>
+            <li><a href="#"></i></a></li>
+        </ul>
+
+    </footer>
+</body>
+</html>

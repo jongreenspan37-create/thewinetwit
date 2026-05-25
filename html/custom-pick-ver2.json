@@ -1,0 +1,174 @@
+<div data-section-id="{{ section.id }}" data-section-type="featured-content">
+
+  {% assign sectionBorder = section.settings.border %}
+  {% assign featuredImage = section.settings.image %}
+  {% assign imageAlignment = section.settings.image-alignment %}
+  
+  {% comment %} Get the selected product data {% endcomment %}
+  {% assign selected_product = all_products[section.settings.featured_product] %}
+
+  {% comment %} 
+    Automated Content Logic:
+    Prioritises the selected wine's data, falls back to manual settings.
+  {% endcomment %}
+  {% if selected_product != blank %}
+    {% assign displayTitle = selected_product.title %}
+    {% assign displayImage = selected_product.featured_media %}
+    {% assign displayPrice = selected_product.price | money %}
+  {% else %}
+    {% assign displayTitle = section.settings.image_title %}
+    {% assign displayImage = featuredImage %}
+    {% assign displayPrice = "" %}
+  {% endif %}
+
+  {%- capture image_html -%}
+    {% if displayImage %}
+      {%
+        render 'rimg',
+        img: displayImage,
+        size: '1000x1000',
+        lazy: true,
+        focal_point: displayImage.presentation.focal_point,
+      %}
+    {% else %}
+      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {% endif %}
+  {%- endcapture -%}
+
+  <div class="home-module home-imported-content has-media
+    {% if sectionBorder %}has-border{% endif %}
+    media-aligned-{{ imageAlignment }}">
+
+    <div class="home-module-content {% if section.settings.title != blank %}home-module-has-heading{% endif %}">
+
+      {%
+        render 'home-section-title',
+        sectionTitle: section.settings.title,
+      %}
+
+      <div class="home-imported-content-wrapper">
+        <div class="rte">
+          
+          {% comment %} Heading & Price {% endcomment %}
+          <h2 style="margin-bottom: 5px;">{{ displayTitle }}</h2>
+          {% if displayPrice != blank %}
+            <p class="price" style="font-size: 1.2em; font-weight: bold; margin-bottom: 15px;">{{ displayPrice }}</p>
+          {% endif %}
+
+          {% comment %} Description/Caption {% endcomment %}
+          <div class="image-caption-text">
+            {% if selected_product != blank and section.settings.use_product_desc %}
+              {{ selected_product.description | truncatewords: 30 }}
+            {% else %}
+              {{ section.settings.caption }}
+            {% endif %}
+          </div>
+          
+          {% comment %} Add to Cart Button {% endcomment %}
+          {% if selected_product != blank %}
+            <div class="add-to-cart-wrapper" style="margin-top: 25px;">
+              <form method="post" action="/cart/add">
+                <input type="hidden" name="id" value="{{ selected_product.variants.first.id }}" />
+                <button type="submit" 
+                        class="button"
+                        style="border-radius:25px; background-color:#b91c1c; color:white; padding: 12px 35px; border:none; cursor:pointer; font-weight:bold;">
+                  {{ section.settings.button_label }}
+                </button>
+              </form>
+            </div>
+          {% endif %}
+
+        </div>
+
+        <div class="home-embedded-content rte">
+          {{- image_html -}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% schema %}
+{
+  "name": "Custom Pick",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Heading",
+      "default": "Jez's Choice"
+    },
+    {
+      "type": "checkbox",
+      "id": "border",
+      "label": "Show border",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "The Wine"
+    },
+    {
+      "type": "product",
+      "id": "featured_product",
+      "label": "Select Wine"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_product_desc",
+      "label": "Use wine's actual description",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Add to Cart"
+    },
+    {
+      "type": "header",
+      "content": "Manual Overrides"
+    },
+    {
+      "type": "text",
+      "id": "image_title",
+      "label": "Manual Heading (if no product)",
+      "default": "Featured Wine"
+    },
+    {
+      "type": "richtext",
+      "id": "caption",
+      "label": "Manual Text/Description",
+      "default": "<p>Explain why this bottle is brilliant.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Manual Image (Override product shot)"
+    },
+    {
+      "type": "select",
+      "id": "image-alignment",
+      "label": "Image alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "right"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Pick",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}

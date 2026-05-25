@@ -1,0 +1,183 @@
+<div data-section-id="{{ section.id }}" data-section-type="featured-content">
+
+  {% assign sectionBorder = section.settings.border %}
+  {% assign imageTitle = section.settings.image_title | escape %}
+  {% assign imageCaption = section.settings.caption %}
+  {% assign featuredImage = section.settings.image %}
+  {% assign imageAlignment = section.settings.image-alignment %}
+
+  {%- capture image_html -%}
+    {% if featuredImage %}
+      {%
+        render 'rimg',
+        img: featuredImage,
+        size: '1280x640',
+        lazy: true,
+        focal_point: featuredImage.presentation.focal_point,
+      %}
+    {% else %}
+      {{ 'collection-3' | placeholder_svg_tag: 'placeholder-svg' }}
+    {% endif %}
+  {%- endcapture -%}
+
+  <div class="home-module home-imported-content has-media
+    {% if sectionBorder %}has-border{% endif %}
+    media-aligned-{{ imageAlignment }}">
+
+    <div class="home-module-content {% if section.settings.title != blank %}home-module-has-heading{% endif %}">
+
+      {%
+        render 'home-section-title',
+        sectionTitle: section.settings.title,
+      %}
+
+      <div class="home-imported-content-wrapper">
+        <div class="rte">
+          {% if imageTitle != "" %}
+            <h2>{{ imageTitle }}</h2>
+          {% else %}
+            {% if featuredImage == blank %}
+              <h2>{{ 'onboarding.featured_content.page_title' | t }}</h2>
+            {% endif %}
+          {% endif %}
+
+          {% if imageCaption != "" %}
+            <div class="image-caption">{{ imageCaption }}</div>
+          {% else %}
+            {% if featuredImage == blank %}
+              <p>{{ 'onboarding.featured_content.page_excerpt' | t }}</p>
+            {% endif %}
+          {% endif %}
+
+          {% comment %} BUTTON ROW {% endcomment %}
+          <div class="button-row" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px;">
+            
+            {% if section.settings.btn1_link != blank %}
+              <a href="{{ section.settings.btn1_link }}" class="button" style="background-color: #b91c1c; color: white; border-radius: 25px; padding: 10px 20px; text-decoration: none; font-weight: bold;">
+                {{ section.settings.btn1_text }}
+              </a>
+            {% endif %}
+
+            {% if section.settings.btn2_link != blank %}
+              <a href="{{ section.settings.btn2_link }}" class="button" style="background-color: #b91c1c; color: white; border-radius: 25px; padding: 10px 20px; text-decoration: none; font-weight: bold;">
+                {{ section.settings.btn2_text }}
+              </a>
+            {% endif %}
+
+            {% if section.settings.btn3_link != blank %}
+              <a href="{{ section.settings.btn3_link }}" class="button" style="background-color: #b91c1c; color: white; border-radius: 25px; padding: 10px 20px; text-decoration: none; font-weight: bold;">
+                {{ section.settings.btn3_text }}
+              </a>
+            {% endif %}
+
+          </div>
+          
+
+        </div>
+
+        <div class="home-embedded-content rte">
+          {{- image_html -}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% schema %}
+{
+  "name": "Image with text",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Heading",
+      "default": "Featured Wine"
+    },
+    {
+      "type": "checkbox",
+      "id": "border",
+      "label": "Show border",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "text",
+      "id": "image_title",
+      "label": "Content Heading",
+      "default": "Rich text"
+    },
+    {
+      "type": "richtext",
+      "id": "caption",
+      "label": "Text",
+      "default": "<p>Explain your wine stories here.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "btn1_text",
+      "label": "Button 1 Text",
+      "default": "Shop Red"
+    },
+    {
+      "type": "url",
+      "id": "btn1_link",
+      "label": "Button 1 Link"
+    },
+    {
+      "type": "text",
+      "id": "btn2_text",
+      "label": "Button 2 Text",
+      "default": "Shop White"
+    },
+    {
+      "type": "url",
+      "id": "btn2_link",
+      "label": "Button 2 Link"
+    },
+    {
+      "type": "text",
+      "id": "btn3_text",
+      "label": "Button 3 Text",
+      "default": "Shop Rose"
+    },
+    {
+      "type": "url",
+      "id": "btn3_link",
+      "label": "Button 3 Link"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image-alignment",
+      "label": "Image alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "right"
+    }
+  ],
+  "presets": [
+    {
+      "category": "Image",
+      "name": "Image with text buttons"
+    }
+  ]
+}
+{% endschema %}

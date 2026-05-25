@@ -1,0 +1,168 @@
+<div data-section-id="{{ section.id }}" data-section-type="featured-content">
+
+  {% assign sectionBorder = section.settings.border %}
+  {% assign imageTitle = section.settings.image_title | escape %}
+  {% assign imageCaption = section.settings.caption %}
+  {% assign featuredImage = section.settings.image %}
+  {% assign imageAlignment = section.settings.image-alignment %}
+  
+  {% comment %} Get the selected product from the schema {% endcomment %}
+  {% assign selected_product = all_products[section.settings.featured_product] %}
+
+  {%- capture image_html -%}
+    {% if featuredImage %}
+      {%
+        render 'rimg',
+        img: featuredImage,
+        size: '1280x640',
+        lazy: true,
+        focal_point: featuredImage.presentation.focal_point,
+      %}
+    {% else %}
+      {{ 'collection-3' | placeholder_svg_tag: 'placeholder-svg' }}
+    {% endif %}
+  {%- endcapture -%}
+
+  <div class="home-module home-imported-content has-media
+    {% if sectionBorder %}has-border{% endif %}
+    media-aligned-{{ imageAlignment }}">
+
+    <div class="home-module-content {% if section.settings.title != blank %}home-module-has-heading{% endif %}">
+
+      {%
+        render 'home-section-title',
+        sectionTitle: section.settings.title,
+      %}
+
+      <div class="home-imported-content-wrapper">
+        <div class="rte">
+          {% if imageTitle != "" %}
+            <h2>{{ imageTitle }}</h2>
+          {% else %}
+            {% if featuredImage == blank %}
+              <h2>{{ 'onboarding.featured_content.page_title' | t }}</h2>
+            {% endif %}
+          {% endif %}
+
+          {% if imageCaption != "" %}
+            <div class="image-caption-text">{{ imageCaption }}</div>
+          {% else %}
+            {% if featuredImage == blank %}
+              <p>{{ 'onboarding.featured_content.page_excerpt' | t }}</p>
+            {% endif %}
+          {% endif %}
+          
+          {% comment %} Add to Cart Button Logic {% endcomment %}
+          {% if selected_product != blank %}
+            <div class="add-to-cart-wrapper" style="margin-top: 20px;">
+              <form method="post" action="/cart/add">
+                <input type="hidden" name="id" value="{{ selected_product.variants.first.id }}" />
+                <button type="submit" 
+                        class="button"
+                        style="border-radius:25px; background-color:#b91c1c; color:white; padding: 12px 30px; border:none; cursor:pointer; font-weight:bold;">
+                  {{ section.settings.button_label }}
+                </button>
+              </form>
+            </div>
+          {% endif %}
+
+        </div>
+
+        <div class="home-embedded-content rte">
+          {{- image_html -}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% schema %}
+{
+  "name": "Custom Pick",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Heading",
+      "default": "Featured Wine"
+    },
+    {
+      "type": "checkbox",
+      "id": "border",
+      "label": "Show border",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Product & Action"
+    },
+    {
+      "type": "product",
+      "id": "featured_product",
+      "label": "Product for Add to Cart"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Add to Cart"
+    },
+    {
+      "type": "header",
+      "content": "Text Content"
+    },
+    {
+      "type": "text",
+      "id": "image_title",
+      "label": "Content Heading",
+      "default": "Rich text"
+    },
+    {
+      "type": "richtext",
+      "id": "caption",
+      "label": "Text",
+      "default": "<p>Say something about this specific bottle.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "1280 x 640px .jpg recommended"
+    },
+    {
+      "type": "select",
+      "id": "image-alignment",
+      "label": "Image alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "right"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Pick",
+      "category": "Product"
+    }
+  ],
+  "enabled_on": {
+    "templates": [
+      "index",
+      "product",
+      "page"
+    ]
+  }
+}
+{% endschema %}

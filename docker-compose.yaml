@@ -1,11 +1,14 @@
+
 services:
   tailscale:
     image: tailscale/tailscale:latest
-    hostname:thewinetwit
+    container_name: ts-thewinetwit
+    hostname: thewinetwit
     environment:
       - TS_AUTHKEY=${TS_AUTHKEY}
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_SERVE_CONFIG=/config/serve.json
+      - TS_EXTRA_ARGS=--advertise-tags=tag:container
     volumes:
       - ./tailscale-data:/var/lib/tailscale
       - ./config:/config
@@ -16,6 +19,30 @@ services:
     restart: unless-stopped
 
   web-server:
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: nginx_thewinetwit
+    depends_on:
+      - tailscale
     network_mode: "service:tailscale"
+    volumes:
+      - ./html:/usr/share/nginx/html:ro
     restart: unless-stopped
+
+  db:
+    image: postgres:15
+    container_name: db_thewinetwit
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - winetwit_postgres_data:/var/lib/postgresql/data
+    network_mode: "service:tailscale"
+    depends_on:
+      - tailscale
+
+volumes:
+  winetwit_postgres_data:
+
+
